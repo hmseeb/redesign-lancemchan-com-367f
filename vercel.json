@@ -9009,6 +9009,11 @@
       "source": "/review/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "https://vision.leadrai.com/site-admin/site-a3ee229ab73cff0d91f686c82bd90797a9dc",
+      "permanent": false
     }
   ]
 }
