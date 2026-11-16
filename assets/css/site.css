@@ -71,6 +71,9 @@ p{ margin:0 0 1rem; max-width:62ch; }
 a{ color:var(--navy); text-decoration-thickness:1px; text-underline-offset:3px; }
 a:hover{ color:var(--gold); }
 
+/* the phone number always stays on a single line */
+a[href^="tel:"],.nowrap{ white-space:nowrap; }
+
 :focus-visible{
   outline:3px solid var(--gold);
   outline-offset:3px;
@@ -89,6 +92,16 @@ a:hover{ color:var(--gold); }
 
 .section{ padding:var(--sec) 0; }
 .section--tight{ padding:calc(var(--sec) * .6) 0; }
+
+/* Two stacked sections otherwise add their paddings together and leave a
+   doubled gap. Split the gap so neighbours never exceed one --sec band
+   (96px desktop / 64px mobile). */
+:is(.section,.section--tight) + :is(.section,.section--tight){
+  padding-top:calc(var(--sec) * .5);
+}
+:is(.section,.section--tight):has(+ :is(.section,.section--tight)){
+  padding-bottom:calc(var(--sec) * .5);
+}
 
 .band-navy{ background:var(--navy); color:#EEF2F7; }
 .band-navy h1,.band-navy h2,.band-navy h3,.band-navy h4{ color:#fff; }
@@ -191,11 +204,18 @@ a:hover{ color:var(--gold); }
 /* ------------------------------ rating ---------------------------------- */
 
 .rating{
-  display:inline-flex;
+  display:flex;
+  flex-wrap:wrap;
   align-items:center;
-  gap:10px;
+  gap:2px 10px;
   font-size:.95rem;
   font-weight:600;
+}
+.rating > *{ flex:0 0 auto; }
+/* On narrow screens keep the stars and "5.0 stars on Google" together on one
+   line and drop the Google link onto the next, never three columns. */
+@media (max-width:739px){
+  .rating > a{ flex:1 0 100%; }
 }
 .rating .stars{ color:#9A7628; letter-spacing:2px; font-size:1.05rem; }
 .band-navy .rating .stars,.band-charcoal .rating .stars,.hero .rating .stars,
@@ -423,7 +443,21 @@ a:hover{ color:var(--gold); }
 @media (min-width:980px){
   .split{ grid-template-columns:1fr minmax(460px,520px); gap:56px; }
   .split--even{ grid-template-columns:1fr 1fr; }
+  /* short column next to a tall form card: stretch the photo to the card
+     height instead of leaving an empty block below it */
+  .split--fill{ align-items:stretch; }
+  .split--fill > :first-child{ display:flex; flex-direction:column; }
+  .split--fill .fill-media{ flex:1 1 auto; min-height:300px; }
+  .split--fill .fill-media img{
+    width:100%; height:100%; min-height:300px;
+    object-fit:cover; border-radius:var(--radius);
+  }
 }
+
+/* short trust points that balance a text column against a tall form card */
+.trust-points{ margin-top:26px; }
+.trust-points li{ font-size:.97rem; font-weight:600; }
+.band-navy .trust-points li,.band-charcoal .trust-points li{ color:#DCE4EE; }
 
 /* media band */
 .media-band img{ width:100%; height:300px; object-fit:cover; border-radius:var(--radius); }
@@ -498,16 +532,23 @@ a:hover{ color:var(--gold); }
 .carousel-viewport{ overflow:hidden; }
 .carousel-track{
   display:flex;
+  position:relative;
+  gap:24px;
   transition:transform .45s ease;
   will-change:transform;
 }
+/* slides fill the container edge to edge: the gutter lives in the flex gap,
+   never inside the card, so the row spans the full container width */
 .carousel-slide{
   flex:0 0 100%;
   max-width:100%;
-  padding-right:24px;
   box-sizing:border-box;
 }
-@media (min-width:980px){ .carousel-slide{ flex-basis:33.3333%; max-width:33.3333%; } }
+@media (min-width:980px){
+  .carousel-slide{ flex-basis:calc((100% - 48px) / 3); max-width:calc((100% - 48px) / 3); }
+}
+/* a carousel with a single page of slides needs no arrows or dots */
+.carousel-controls[hidden]{ display:none; }
 
 .review{
   background:#fff; border:1px solid var(--line-soft); border-radius:var(--radius);
@@ -517,6 +558,27 @@ a:hover{ color:var(--gold); }
 .review blockquote{
   margin:0 0 18px; font-family:var(--serif); font-size:1.06rem; line-height:1.5; color:var(--ink);
 }
+/* long quotes are clamped so cards in a row stay even */
+.review.is-clamped blockquote{
+  display:-webkit-box;
+  -webkit-line-clamp:6;
+  line-clamp:6;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.review .read-more{
+  align-self:flex-start;
+  margin:0 0 18px;
+  padding:0;
+  background:none; border:0; cursor:pointer;
+  font-family:var(--sans); font-size:.92rem; font-weight:700;
+  color:var(--navy);
+  text-decoration:underline;
+  text-decoration-color:rgba(195,154,77,.8);
+  text-underline-offset:4px;
+  min-height:32px;
+}
+.review .read-more:hover{ color:var(--gold); }
 .review .who{ margin-top:auto; font-weight:700; color:var(--navy); font-size:.95rem; }
 .review .src{ display:flex; align-items:center; gap:8px; margin-top:8px; color:var(--muted); font-size:.85rem; }
 .review .src img{ height:18px; width:auto; }
@@ -613,11 +675,13 @@ a:hover{ color:var(--gold); }
 
 /* ---------------------------- calculator --------------------------------- */
 
-.calc{ display:grid; gap:28px; grid-template-columns:1fr; }
+.calc{ display:grid; gap:28px; grid-template-columns:1fr; align-items:stretch; }
 @media (min-width:900px){ .calc{ grid-template-columns:1fr 1fr; gap:48px; } }
+/* the result card stretches to the height of the input column */
 .calc-out{
   background:var(--navy); color:#fff; border-radius:var(--radius);
-  padding:30px 26px; align-self:start;
+  padding:30px 26px;
+  display:flex; flex-direction:column; justify-content:center;
 }
 .calc-out .out-label{ font-size:.82rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-light); font-weight:700; }
 .calc-out .out-value{
@@ -634,6 +698,17 @@ a:hover{ color:var(--gold); }
 .contact-list .v{ font-size:1.06rem; font-weight:600; color:var(--navy); }
 .map-wrap{ border:1px solid var(--line-soft); border-radius:var(--radius); overflow:hidden; }
 .map-wrap iframe{ display:block; width:100%; height:360px; border:0; }
+/* static map image, linked through to Google Maps directions */
+.map-link{ display:block; text-decoration:none; }
+.map-link img{ display:block; width:100%; height:300px; object-fit:cover; }
+@media (min-width:900px){ .map-link img{ height:420px; } }
+.map-link .map-cta{
+  display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px;
+  padding:16px 20px; background:#fff; border-top:1px solid var(--line-soft);
+  font-weight:700; color:var(--navy); min-height:56px;
+}
+.map-link .map-cta .map-addr{ font-weight:600; color:var(--muted); font-size:.95rem; }
+.map-link:hover .map-cta{ background:var(--cream); color:var(--navy); }
 
 /* ------------------------------ chips ------------------------------------ */
 
@@ -673,7 +748,9 @@ a:hover{ color:var(--gold); }
 /* ------------------------------- footer ---------------------------------- */
 
 .site-footer{ background:var(--navy-deep); color:#C3CDDA; }
-.footer-top{ padding:var(--sec) 0 40px; }
+/* padding-left/right stay on .container so the footer lines up with every
+   other section (same max width, same 24px/40px side padding) */
+.footer-top{ padding-top:var(--sec); padding-bottom:40px; }
 .footer-grid{ display:grid; gap:36px; grid-template-columns:1fr; }
 @media (min-width:760px){ .footer-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (min-width:1040px){ .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; } }
@@ -701,7 +778,7 @@ a:hover{ color:var(--gold); }
 .eho svg{ flex:0 0 auto; }
 .footer-bottom{
   border-top:1px solid rgba(255,255,255,.12);
-  padding:22px 0 30px; font-size:.86rem; color:#95A3B4;
+  padding-top:22px; padding-bottom:30px; font-size:.86rem; color:#95A3B4;
 }
 .footer-bottom p{ font-size:.86rem; color:#95A3B4; max-width:none; }
 
@@ -717,7 +794,8 @@ a:hover{ color:var(--gold); }
 .sticky-bar a{
   display:flex; align-items:center; justify-content:center; text-align:center;
   min-height:52px; width:100%; border-radius:var(--radius);
-  font-weight:700; font-size:.95rem; text-decoration:none;
+  font-weight:700; font-size:clamp(.78rem,3.3vw,.95rem); text-decoration:none;
+  white-space:nowrap; padding:0 6px;
 }
 .sticky-bar .sb-call{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.6); }
 .sticky-bar .sb-value{ background:var(--gold); color:#13243A; border:2px solid var(--gold); }

@@ -120,15 +120,23 @@
       var prev = root.querySelector('[data-carousel-prev]');
       var next = root.querySelector('[data-carousel-next]');
       var dotWrap = root.querySelector('[data-carousel-dots]');
+      var controls = root.querySelector('.carousel-controls');
       if (!track || !slides.length) return;
       var index = 0;
 
       function perView() { return window.innerWidth >= 980 ? 3 : 1; }
       function maxIndex() { return Math.max(0, slides.length - perView()); }
 
+      // With everything on screen there is nothing to page through, so the
+      // arrows and dots are hidden rather than shown disabled.
+      function syncControls() {
+        if (controls) controls.hidden = maxIndex() === 0;
+      }
+
       function renderDots() {
         if (!dotWrap) return;
         dotWrap.innerHTML = '';
+        if (maxIndex() === 0) return;
         for (var i = 0; i <= maxIndex(); i++) {
           (function (i) {
             var b = document.createElement('button');
@@ -143,8 +151,9 @@
 
       function go(i) {
         index = Math.min(Math.max(i, 0), maxIndex());
-        var step = 100 / perView();
-        track.style.transform = 'translateX(-' + (index * step) + '%)';
+        // measure the slide itself so the flex gap between cards is respected
+        var offset = slides[index] ? slides[index].offsetLeft : 0;
+        track.style.transform = 'translateX(-' + offset + 'px)';
         if (prev) prev.disabled = index === 0;
         if (next) next.disabled = index >= maxIndex();
         if (dotWrap) {
@@ -164,11 +173,39 @@
       var resizeTimer;
       window.addEventListener('resize', function () {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () { renderDots(); go(Math.min(index, maxIndex())); }, 150);
+        resizeTimer = setTimeout(function () {
+          syncControls(); renderDots(); go(Math.min(index, maxIndex()));
+        }, 150);
       });
 
+      syncControls();
       renderDots();
       go(0);
+    });
+  }
+
+  /* ------------------------- review "read more" -------------------------- */
+  function initReviewClamp() {
+    document.querySelectorAll('[data-review-grid] .review').forEach(function (card) {
+      var quote = card.querySelector('blockquote');
+      if (!quote) return;
+      card.classList.add('is-clamped');
+      // nothing hidden once clamped? then the quote is already short enough
+      if (quote.scrollHeight - quote.clientHeight < 4) {
+        card.classList.remove('is-clamped');
+        return;
+      }
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'read-more';
+      btn.textContent = 'Read more';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', function () {
+        var clamped = card.classList.toggle('is-clamped');
+        btn.textContent = clamped ? 'Read more' : 'Read less';
+        btn.setAttribute('aria-expanded', clamped ? 'false' : 'true');
+      });
+      quote.insertAdjacentElement('afterend', btn);
     });
   }
 
@@ -203,6 +240,18 @@
       return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
     }
 
+    // money inputs are shown with a $ and thousands separators while typing
+    function formatMoneyFields() {
+      form.querySelectorAll('[data-money]').forEach(function (el) {
+        var raw = String(el.value).replace(/[^0-9.]/g, '');
+        if (!raw) return;
+        var v = parseFloat(raw);
+        if (isNaN(v)) return;
+        var next = money(v);
+        if (el.value !== next) el.value = next;
+      });
+    }
+
     function calc() {
       var price = num('Home price');
       var down = num('Down payment');
@@ -223,11 +272,14 @@
         return;
       }
       out.textContent = money(payment);
-      detail.textContent = 'Based on a ' + money(principal) + ' loan over ' + n + ' payments at the rate you entered. Principal and interest only; taxes, insurance and HOA dues are not included.';
+      detail.textContent = 'Based on a ' + money(principal) + ' loan over ' + n + ' payments at the rate shown. Principal and interest only; taxes, insurance and HOA dues are not included.';
     }
 
     form.addEventListener('input', calc);
+    form.addEventListener('change', function () { formatMoneyFields(); calc(); });
+    form.addEventListener('focusout', function () { formatMoneyFields(); calc(); });
     form.addEventListener('submit', function (e) { e.preventDefault(); calc(); });
+    formatMoneyFields();
     calc();
   }
 
@@ -315,6 +367,7 @@
     initSteps();
     initChooser();
     initCarousel();
+    initReviewClamp();
     initFaq();
     initCalc();
     initForms();
