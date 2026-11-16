@@ -37,6 +37,14 @@ their author. Full licence text: https://creativecommons.org/licenses/
 | cv-32-orchard-field.jpg | Dicklyon | CC BY-SA 4.0 | [File:Packard apricot orchard in winter.jpg](https://commons.wikimedia.org/wiki/File:Packard_apricot_orchard_in_winter.jpg) |
 | cv-33-new-orchard-rows.jpg | Chuck Abbe | CC BY 2.0 | [File:Streuobstwiese San Luis Obispo County.jpg](https://commons.wikimedia.org/wiki/File:Streuobstwiese_San_Luis_Obispo_County.jpg) |
 | cv-34-farmer-sunset.jpg | USDAgov | Public domain | [File:Ag Day 2020 (20181109-FPAC-LSC-1176).jpg](https://commons.wikimedia.org/wiki/File:Ag_Day_2020_(20181109-FPAC-LSC-1176).jpg) |
-
+| cv-35-galt-aerial-homes.jpg | Pi.1415926535 | CC BY-SA 3.0 | [File:Aerial view of Galt, August 2018.JPG](https://commons.wikimedia.org/wiki/File%3AAerial_view_of_Galt%2C_August_2018.JPG) |
+| cv-37-ripon-aerial.jpg | Pi.1415926535 | CC BY-SA 4.0 | [File:Aerial view of Ripon, California, October 2024.JPG](https://commons.wikimedia.org/wiki/File%3AAerial_view_of_Ripon%2C_California%2C_October_2024.JPG) |
+| cv-39-delta-levee-waterfront.jpg | U.S. Army Corps of Engineers Sacramento District | Public domain | [File:Delta levee (6053661313).jpg](https://commons.wikimedia.org/wiki/File%3ADelta_levee_%286053661313%29.jpg) |
+| cv-40-horseshoe-bend-waterfront.jpg | U.S. Army Corps of Engineers Sacramento District | Public domain | [File:Horseshoe Bend levee (6053663255).jpg](https://commons.wikimedia.org/wiki/File%3AHorseshoe_Bend_levee_%286053663255%29.jpg) |
+| cv-42-lodi-dogtown-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Dogtown Vineyard - Zinfandel - planted 1944.jpg](https://commons.wikimedia.org/wiki/File%3ADogtown_Vineyard_-_Zinfandel_-_planted_1944.jpg) |
+| cv-43-lodi-kirschenmann-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Kirschenmann Vineyard - Zinfandel - planted 1915.jpg](https://commons.wikimedia.org/wiki/File%3AKirschenmann_Vineyard_-_Zinfandel_-_planted_1915.jpg) |
+| cv-44-lodi-royal-tee-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Royal Tee Vineyard - Zinfandel - planted 1889.jpg](https://commons.wikimedia.org/wiki/File%3ARoyal_Tee_Vineyard_-_Zinfandel_-_planted_1889.jpg) |
+| cv-45-lodi-vineyard-sheep.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Schulenburg Vineyard Zinfandel with sheep planted 1955.j](https://commons.wikimedia.org/wiki/File%3ASchulenburg_Vineyard_Zinfandel_with_sheep_planted_1955.jpg) |
+| cv-46-lodi-rauser-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Rauser Vineyard - Carignan and Alicante Bouschet - plant](https://commons.wikimedia.org/wiki/File%3ARauser_Vineyard_-_Carignan_and_Alicante_Bouschet_-_planted_1909.jpg) |
 The static map image in /images/map/ is rendered from OpenStreetMap tiles,
 (c) OpenStreetMap contributors, ODbL - https://www.openstreetmap.org/copyright
