@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lance McHan">
+  <rect width="64" height="64" rx="8" fill="#0E2439"/>
+  <path d="M12 46V18h6v22h12v6H12Z" fill="#C39A4D"/>
+  <path d="M34 46V18h6l6 12 6-12h6v28h-6V30l-6 12-6-12v16h-6Z" fill="#C39A4D"/>
+</svg>
