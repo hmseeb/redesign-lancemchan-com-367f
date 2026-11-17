@@ -318,6 +318,38 @@
         data.forEach(function (value, key) { payload[key] = value; });
         payload._page = window.location.href;
 
+        try {
+          var ghlName = String(payload.name || '').trim();
+          var ghlParts = ghlName.split(/\s+/);
+          var ghlFirst = ghlParts.shift() || '';
+          var ghlLast = ghlParts.join(' ');
+          var ghlForm = String(payload._form || '').trim();
+          var ghlPath = window.location.pathname;
+          if (!payload._gotcha) {
+            fetch('https://services.leadconnectorhq.com/hooks/4q70HDVbuHdM42CGJq10/webhook-trigger/a40dba9b-61f8-4dde-a7b9-8cd54c30a8b1', {
+              method: 'POST',
+              mode: 'cors',
+              keepalive: true,
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name: ghlName,
+                first_name: ghlFirst,
+                last_name: ghlLast,
+                email: payload.email || '',
+                phone: payload.phone || '',
+                form: ghlForm,
+                page: ghlPath,
+                property_address: payload['Property address'] || '',
+                property_type: payload['Property type'] || '',
+                timeline: payload['Timeline'] || '',
+                need: payload['Need'] || '',
+                message: payload['Message'] || '',
+                source: 'Website form: ' + (ghlForm || ghlPath)
+              })
+            }).catch(function () {});
+          }
+        } catch (ghlErr) {}
+
         fetch(form.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
