@@ -43,7 +43,10 @@ body{
   font-size:17px;
   line-height:1.65;
   overflow-x:hidden;
-  padding-bottom:78px; /* room for mobile sticky bar */
+  /* room for the mobile sticky bar: 10px + 52px button + 10px + 1px border,
+     plus the iOS home indicator, so it never covers the end of the page */
+  padding-bottom:73px;
+  padding-bottom:calc(73px + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width:900px){
@@ -90,16 +93,16 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
   padding-right:var(--pad);
 }
 
+/* every section uses the same band: 96px desktop / 64px mobile */
 .section{ padding:var(--sec) 0; }
-.section--tight{ padding:calc(var(--sec) * .6) 0; }
 
 /* Two stacked sections otherwise add their paddings together and leave a
    doubled gap. Split the gap so neighbours never exceed one --sec band
    (96px desktop / 64px mobile). */
-:is(.section,.section--tight) + :is(.section,.section--tight){
+.section + .section{
   padding-top:calc(var(--sec) * .5);
 }
-:is(.section,.section--tight):has(+ :is(.section,.section--tight)){
+.section:has(+ .section){
   padding-bottom:calc(var(--sec) * .5);
 }
 
@@ -128,7 +131,8 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
 .lede{ font-size:1.12rem; color:var(--muted); }
 .band-navy .lede,.band-charcoal .lede{ color:#CFD8E3; }
 
-.section-head{ max-width:760px; margin-bottom:40px; }
+/* intro sits close to the first row or card of its section */
+.section-head{ max-width:760px; margin-bottom:22px; }
 
 .rule{
   width:64px; height:3px; background:var(--gold);
@@ -355,6 +359,16 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
 .hero .cta-row{ margin-top:30px; }
 .hero .textlink{ color:#fff; }
 
+/* city line: every city is its own non-breaking item, and the separator leads
+   the item so a hidden city can never leave a dangling dot at the line end */
+.cities{
+  display:flex; flex-wrap:wrap; align-items:center;
+  gap:4px 10px; list-style:none; padding:0;
+}
+.cities li{ white-space:nowrap; }
+.cities li + li::before{ content:"\00B7"; margin-right:10px; opacity:.8; }
+@media (max-width:739px){ .cities .city-extra{ display:none; } }
+
 /* credential badge strip */
 .badges{ background:var(--cream); border-bottom:1px solid var(--line-soft); }
 .badge-row{
@@ -369,7 +383,9 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
   background:#fff; border:1px solid var(--line-soft);
   border-radius:var(--radius); padding:14px 16px; height:100%;
 }
-.badge img{ height:40px; width:auto; flex:0 0 auto; }
+/* on phones one card fills the row, so the logo is drawn large enough to read */
+.badge img{ height:60px; width:auto; flex:0 0 auto; }
+@media (min-width:760px){ .badge img{ height:44px; } }
 .badge span{ font-size:.92rem; font-weight:600; color:var(--navy); line-height:1.35; }
 
 /* ------------------------------- grids ---------------------------------- */
@@ -424,8 +440,8 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
 
 /* alternating feature rows */
 .feature-row{
-  display:grid; gap:28px; grid-template-columns:1fr; align-items:center;
-  padding:0 0 var(--sec);
+  display:grid; gap:28px; grid-template-columns:1fr; align-items:start;
+  padding:0 0 calc(var(--sec) * .5);
 }
 .feature-row:last-child{ padding-bottom:0; }
 @media (min-width:900px){
@@ -479,14 +495,18 @@ a[href^="tel:"],.nowrap{ white-space:nowrap; }
   transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   display:flex; flex-direction:column;
 }
-.chooser-tab:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
 .chooser-tab img{ width:100%; height:132px; object-fit:cover; }
 .chooser-tab .ct-label{
   padding:14px 16px; font-weight:700; font-size:1rem; flex:1;
   display:flex; align-items:center; gap:8px;
 }
-.chooser-tab[aria-selected="true"]{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(195,154,77,.4); }
-.chooser-tab[aria-selected="true"] .ct-label{ color:#8C6A1E; }
+/* every card shares one default style; the gold edge is a hover/focus cue only */
+.chooser-tab:hover,.chooser-tab:focus-visible{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+  border-color:var(--gold);
+}
+.chooser-tab:hover .ct-label,.chooser-tab:focus-visible .ct-label{ color:#8C6A1E; }
 
 .chooser-panel{
   background:#fff; border:1px solid var(--line-soft); border-left:4px solid var(--gold);

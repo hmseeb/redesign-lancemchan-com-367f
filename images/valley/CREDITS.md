@@ -46,5 +46,6 @@ their author. Full licence text: https://creativecommons.org/licenses/
 | cv-44-lodi-royal-tee-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Royal Tee Vineyard - Zinfandel - planted 1889.jpg](https://commons.wikimedia.org/wiki/File%3ARoyal_Tee_Vineyard_-_Zinfandel_-_planted_1889.jpg) |
 | cv-45-lodi-vineyard-sheep.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Schulenburg Vineyard Zinfandel with sheep planted 1955.j](https://commons.wikimedia.org/wiki/File%3ASchulenburg_Vineyard_Zinfandel_with_sheep_planted_1955.jpg) |
 | cv-46-lodi-rauser-vineyard.jpg | Randy Caparoso | CC BY-SA 4.0 | [File:Rauser Vineyard - Carignan and Alicante Bouschet - plant](https://commons.wikimedia.org/wiki/File%3ARauser_Vineyard_-_Carignan_and_Alicante_Bouschet_-_planted_1909.jpg) |
+| cv-47-sacramento-apartment-community.jpg | Roc0ast3r | CC0 1.0 | [File:Crossing at River Lake, Sacramento.jpg](https://commons.wikimedia.org/wiki/File%3ACrossing_at_River_Lake%2C_Sacramento.jpg) |
 The static map image in /images/map/ is rendered from OpenStreetMap tiles,
 (c) OpenStreetMap contributors, ODbL - https://www.openstreetmap.org/copyright
