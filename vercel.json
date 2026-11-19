@@ -9014,6 +9014,61 @@
       "source": "/admin",
       "destination": "https://vision.leadrai.com/site-admin/site-a3ee229ab73cff0d91f686c82bd90797a9dc",
       "permanent": false
+    },
+    {
+      "source": "/featured-listing",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/featured-listing/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/sold-listing",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/sold-listing/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/listing",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/listing/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/listing-detail/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/open-house-listings",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/open-house-listings/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/open-house-listings-3",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/open-house-listings-3/",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
